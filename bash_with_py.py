@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 import subprocess
 import os
+import itertools
+
 
 def clear():
 	subprocess.call(["cmd.exe","/c","cls"])
@@ -27,6 +29,29 @@ def rm(delfd):
 		os.remove(cmd[2:])
 	except Exception as e:
 		print("no se ha encontrado la carpeta o directorio {}".format(delfd))
+def head(textfile):
+    end = ''
+    try:
+        with open(textfile) as data:
+            text_iterator = itertools.islice(data, 0, 10)
+            for element in text_iterator:
+                print(element, end)
+    except:
+        print("[ERROR] El archivo no existe o no puede ser abierto")
+
+def tail(textfile):
+    end = ''
+    try:
+        with open(textfile) as data:
+        	all_lines = itertools.islice(data, 0, None)
+        	num_lines = sum(1 for _ in all_lines)
+        	data.seek(0)
+        	line_begin = 0 if (num_lines < 10) else num_lines - 10
+        	text_iterator = itertools.islice(data, line_begin, None)
+        	for element in text_iterator:
+        		print(element, end)
+    except:
+        print("[ERROR] El archivo no existe o no puede ser abierto")
 
 
 if __name__ == '__main__':
@@ -60,6 +85,10 @@ leer el codigo''')
 			print('''
 		{}
 				'''.format(os.getcwd()))
+		elif cmd[:4] == "head":
+			head(cmd[5:])
+		elif cmd[:4] == "tail":
+			tail(cmd[5:])
 
         
         
