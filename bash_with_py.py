@@ -12,23 +12,21 @@ def ls():
 	for file in dirlist:
 		print(file)
 
-def mkdir():
+def mkdir(mdir):
 	try:
-	    os.mkdir(cmd[6:])
-	except Exception as e: 
+	    os.mkdir(mdir)
+	except: 
 		print("ese directorio ya existe") 
-
-def cd(cdir):
-	
+def cd(cdir): 
 	try:
 		os.chdir(cdir)
-	except Exception as e:
+	except:
 		print("el sistema no puede encontrar la ruta")
-def rm(delfd):
+def rm(path):
 	try:
-		os.remove(cmd[2:])
-	except Exception as e:
-		print("no se ha encontrado la carpeta o directorio {}".format(delfd))
+		os.remove(path)
+	except:
+		print("[ERROR]: '{}' no encontrado".format(path))
 def head(textfile):
     end = ''
     try:
@@ -52,35 +50,42 @@ def tail(textfile):
         		print(element, end)
     except:
         print("[ERROR] El archivo no existe o no puede ser abierto")
+def find(file):
+	findfile = os.listdir(".")
+	fcount = 1
+	for f in findfile:
+		if f == file:
+			print(f)
+			break
+		else:
+			fcount += 1
+	if fcount > len(findfile):
+		print("find: '{}': no encontrado".format(file))
+
+
 
 
 if __name__ == '__main__':
-	wt = True
-	while wt:
+	cmd = str()
+	while cmd != "exit":
 		cmd = str(raw_input("{}>".format(os.getcwd())))
 		if cmd == "help":
-			print('''de momento no pondrÃ© este comando porque el output es largo y hace dificil 
+			print('''de momento no pondré este comando porque el output es largo y hace dificil 
 leer el codigo''')
 		elif cmd == "clear":
 			clear()
-
 		elif cmd [:2] == "ls" and cmd[2:] == "":
 			ls()
-
-		elif cmd[:6] == "mkdir ":
-			mkdir()
-
+		elif cmd[:5] == "mkdir":
+			mkdir(cmd[6:])
 		elif cmd[:2] == "cd":
 			cd(cmd[3:])
-
 		elif cmd[:2] == "rm":
-			rm(cmd[2:])
-
-
+			rm(cmd[3:])
 		elif cmd[:4] == "echo":
 			print(cmd[5:])
 		elif cmd[:5] == "touch":
-			open(cmd[5:], "w")
+			open(cmd[6:], "w")
 		elif cmd[:3] == "pwd":
 			print('''
 		{}
@@ -89,6 +94,14 @@ leer el codigo''')
 			head(cmd[5:])
 		elif cmd[:4] == "tail":
 			tail(cmd[5:])
-
-        
-        
+		elif cmd[:3] == "cat":
+			catfile = open(cmd[4:], "r")
+			for line in catfile:
+				print(line)
+			catfile.close()
+		elif cmd[:4] == "find":
+			find(cmd[5:])
+		else:
+			if cmd != "exit":
+					print("comando no reconocido")
+	exit()
