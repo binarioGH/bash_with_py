@@ -62,9 +62,7 @@ def find(file):
 	if fcount > len(findfile):
 		print("find: '{}': no encontrado".format(file))
 
-
-
-
+		
 if __name__ == '__main__':
 	cmd = str()
 	while cmd != "exit":
@@ -80,7 +78,7 @@ leer el codigo''')
 			mkdir(cmd[6:])
 		elif cmd[:2] == "cd":
 			cd(cmd[3:])
-		elif cmd[:2] == "rm":
+		elif cmd[:2] == "rm" and cmd[2] == " ":
 			rm(cmd[3:])
 		elif cmd[:4] == "echo":
 			print(cmd[5:])
@@ -101,6 +99,12 @@ leer el codigo''')
 			catfile.close()
 		elif cmd[:4] == "find":
 			find(cmd[5:])
+		elif cmd[:5] == "rmdir":
+			try:
+				os.rmdir(cmd[6:])
+			except:
+				print("no se ha podido borrar '{}'".format(cmd[6:]))
+
 		else:
 			if cmd != "exit":
 					print("comando no reconocido")
