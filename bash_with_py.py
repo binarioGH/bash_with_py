@@ -38,6 +38,7 @@ def ls_flags(cmd):
 					for file in dirlist:
 						(mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file)
 						print("{} {} {} {}".format(getpass.getuser(),time.ctime(size), time.ctime(mtime),file))
+				
 
 			
 
@@ -101,6 +102,8 @@ if __name__ == '__main__':
 leer el codigo''')
 		elif cmd == "clear":
 			clear()
+		elif cmd[:3] == "dir":
+			ls()
 		elif cmd [:2] == "ls":
 			if cmd[2:] == "":
 				ls()
