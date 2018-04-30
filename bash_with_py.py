@@ -2,6 +2,8 @@
 import subprocess
 import os
 import itertools
+import getpass
+import time
 
 
 def clear():
@@ -9,8 +11,35 @@ def clear():
 
 def ls():
 	dirlist = os.listdir('.')
-	for file in dirlist:
-		print(file)
+	count = 0
+	while count <= len(dirlist) - 1:
+		if count + 4 <= len(dirlist) -1:
+			print("\n {}  {}  {}  {}  {} \n".format(dirlist[count], dirlist[count + 1], dirlist[count + 2], dirlist[count + 3], dirlist[count + 4]))
+			count += 4
+		elif count + 3 <= len(dirlist) -1:
+			print("\n {}  {}  {}  {} \n".format(dirlist[count], dirlist[count + 1], dirlist[count + 2], dirlist[count + 3]))
+			count += 3
+		elif count + 2 <= len(dirlist) -1:
+			print("\n {}  {}  {} \n".format(dirlist[count], dirlist[count+1], dirlist[count+2]))
+			count += 2
+		elif count + 1 <= len(dirlist) - 1:
+			print("\n {}  {} \n".format(dirlist[count], dirlist[count + 1]))
+			count += 1
+		elif count == len(dirlist) - 1:
+			print("\n {} \n".format(dirlist[count]))
+			count += 1
+def ls_flags(cmd):
+	lscount = 2
+	dirlist = os.listdir('.')
+	for char in cmd[2:]:
+		if char == "-":
+			for c in cmd[lscount:]:
+				if c == 'l':
+					for file in dirlist:
+						(mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file)
+						print("{} {} {} {}".format(getpass.getuser(),time.ctime(size), time.ctime(mtime),file))
+
+			
 
 def mkdir(mdir):
 	try:
@@ -68,12 +97,15 @@ if __name__ == '__main__':
 	while cmd != "exit":
 		cmd = str(raw_input("{}>".format(os.getcwd())))
 		if cmd == "help":
-			print('''de momento no pondré este comando porque el output es largo y hace dificil 
+			print('''de momento no pondrÃ© este comando porque el output es largo y hace dificil 
 leer el codigo''')
 		elif cmd == "clear":
 			clear()
-		elif cmd [:2] == "ls" and cmd[2:] == "":
-			ls()
+		elif cmd [:2] == "ls":
+			if cmd[2:] == "":
+				ls()
+			elif cmd[2:] != "":
+				ls_flags(cmd)
 		elif cmd[:5] == "mkdir":
 			mkdir(cmd[6:])
 		elif cmd[:2] == "cd":
