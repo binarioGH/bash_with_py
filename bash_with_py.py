@@ -139,8 +139,10 @@ leer el codigo''')
 				os.rmdir(cmd[6:])
 			except:
 				print("no se ha podido borrar '{}'".format(cmd[6:]))
+		elif cmd[:7] == "whoami":
+			print(getpass.getuser())
 
 		else:
 			if cmd != "exit":
-					print("comando no reconocido")
+					print("comando '{}' no reconocido".format(cmd))
 	exit()
