@@ -41,6 +41,10 @@ def ls_flags(cmd):
 				
 
 			
+def whoami():
+	print(getpass.getuser())
+def reboot():
+	subprocess.call(["cmd.exe", "/c", "shutdown", "/r"])
 
 def mkdir(mdir):
 	try:
@@ -91,6 +95,23 @@ def find(file):
 			fcount += 1
 	if fcount > len(findfile):
 		print("find: '{}': no encontrado".format(file))
+def cat(cmd):
+	catfile = open(cmd[4:], "r")
+	for line in catfile:
+		print(line)
+	catfile.close()
+def pwd():
+	print('''
+		{}
+	'''.format(os.getcwd()))
+def rmdir(cmd):
+	try:
+		os.rmdir(cmd[6:])
+	except:
+		print("no se ha podido borrar '{}'".format(cmd[6:]))
+def touch(cmd):
+	touch_file = open(cmd[6:], "w")
+	touch_file.close()
 
 		
 if __name__ == '__main__':
@@ -118,30 +139,23 @@ leer el codigo''')
 		elif cmd[:4] == "echo":
 			print(cmd[5:])
 		elif cmd[:5] == "touch":
-			open(cmd[6:], "w")
+			touch(cmd)
 		elif cmd[:3] == "pwd":
-			print('''
-		{}
-				'''.format(os.getcwd()))
+			pwd()
 		elif cmd[:4] == "head":
 			head(cmd[5:])
 		elif cmd[:4] == "tail":
 			tail(cmd[5:])
 		elif cmd[:3] == "cat":
-			catfile = open(cmd[4:], "r")
-			for line in catfile:
-				print(line)
-			catfile.close()
+			cat(cmd)
 		elif cmd[:4] == "find":
 			find(cmd[5:])
 		elif cmd[:5] == "rmdir":
-			try:
-				os.rmdir(cmd[6:])
-			except:
-				print("no se ha podido borrar '{}'".format(cmd[6:]))
+			rmdir(cmd)
 		elif cmd[:7] == "whoami":
-			print(getpass.getuser())
-
+			whoami()
+		elif cmd[:7] == "reboot":
+			reboot()
 		else:
 			if cmd != "exit":
 					print("comando '{}' no reconocido".format(cmd))
