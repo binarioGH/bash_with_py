@@ -84,7 +84,7 @@ def tail(textfile):
 	except:
 		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
 	else:
-		for string in content[5:]:
+		for string in content[len(content) - 5:]:
 			print(string)
 
 
