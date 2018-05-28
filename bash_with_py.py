@@ -64,7 +64,7 @@ def rm(path):
 #Para estas dos funciones se esta buscando como unificarlas
 
 
-def head(textfile):
+def headtail(textfile, minim, maxim):
 	content = []
 	try:
 		file = open(textfile, "r")
@@ -73,18 +73,7 @@ def head(textfile):
 	except:
 		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
 	else:
-		for string in content[:5]:
-			print(string)
-def tail(textfile):
-	content = []
-	try:
-		file = open(textfile, "r")
-		for line in file:
-			content.append(line)
-	except:
-		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
-	else:
-		for string in content[len(content) - 5:]:
+		for string in content[minim:maxim]:
 			print(string)
 
 
@@ -151,9 +140,9 @@ leer el codigo''')
 		elif cmd[:3] == "pwd":
 			pwd()
 		elif cmd[:4] == "head":
-			head(cmd[5:])
+			headtail(cmd[5:],0,5)
 		elif cmd[:4] == "tail":
-			tail(cmd[5:])
+			headtail(cmd[5:],-5, -1)
 		elif cmd[:3] == "cat":
 			cat(cmd)
 		elif cmd[:4] == "find":
