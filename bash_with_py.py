@@ -61,10 +61,8 @@ def rm(path):
 	except:
 		print("[ERROR]: '{}' no encontrado".format(path))
 
-#Para estas dos funciones se esta buscando como unificarlas
 
-
-def headtail(textfile, minim, maxim):
+def headtail(textfile, trozo):
 	content = []
 	try:
 		file = open(textfile, "r")
@@ -73,12 +71,8 @@ def headtail(textfile, minim, maxim):
 	except:
 		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
 	else:
-		for string in content[minim:maxim]:
+		for string in content[trozo]:
 			print(string)
-
-
-
-#Para estas dos funciones se esta buscando como unificarlas
 
 
 def find(file):
@@ -140,9 +134,9 @@ leer el codigo''')
 		elif cmd[:3] == "pwd":
 			pwd()
 		elif cmd[:4] == "head":
-			headtail(cmd[5:],0,5)
+			headtail(cmd[5:],slice(0,5))
 		elif cmd[:4] == "tail":
-			headtail(cmd[5:],-5, -1)
+			headtail(cmd[5:],slice(-5, None))
 		elif cmd[:3] == "cat":
 			cat(cmd)
 		elif cmd[:4] == "find":
