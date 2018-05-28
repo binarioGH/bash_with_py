@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 import subprocess
 import os
-import itertools
 import getpass
 import time
 
@@ -61,29 +60,38 @@ def rm(path):
 		os.remove(path)
 	except:
 		print("[ERROR]: '{}' no encontrado".format(path))
-def head(textfile):
-    end = ''
-    try:
-        with open(textfile) as data:
-            text_iterator = itertools.islice(data, 0, 10)
-            for element in text_iterator:
-                print(element, end)
-    except:
-        print("[ERROR] El archivo no existe o no puede ser abierto")
 
+#Para estas dos funciones se esta buscando como unificarlas
+
+
+def head(textfile):
+	content = []
+	try:
+		file = open(textfile, "r")
+		for line in file:
+			content.append(line)
+	except:
+		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
+	else:
+		for string in content[:5]:
+			print(string)
 def tail(textfile):
-    end = ''
-    try:
-        with open(textfile) as data:
-        	all_lines = itertools.islice(data, 0, None)
-        	num_lines = sum(1 for _ in all_lines)
-        	data.seek(0)
-        	line_begin = 0 if (num_lines < 10) else num_lines - 10
-        	text_iterator = itertools.islice(data, line_begin, None)
-        	for element in text_iterator:
-        		print(element, end)
-    except:
-        print("[ERROR] El archivo no existe o no puede ser abierto")
+	content = []
+	try:
+		file = open(textfile, "r")
+		for line in file:
+			content.append(line)
+	except:
+		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
+	else:
+		for string in content[5:]:
+			print(string)
+
+
+
+#Para estas dos funciones se esta buscando como unificarlas
+
+
 def find(file):
 	findfile = os.listdir(".")
 	fcount = 1
@@ -117,7 +125,7 @@ def touch(cmd):
 if __name__ == '__main__':
 	cmd = str()
 	while cmd != "exit":
-		cmd = str(raw_input("{}>".format(os.getcwd())))
+		cmd = str(input("{}>".format(os.getcwd())))
 		if cmd == "help":
 			print('''de momento no pondré este comando porque el output es largo y hace dificil 
 leer el codigo''')
@@ -157,6 +165,6 @@ leer el codigo''')
 		elif cmd[:7] == "reboot":
 			reboot()
 		else:
-			if cmd != "exit":
+			if cmd != "exit" and cmd != "":
 					print("comando '{}' no reconocido".format(cmd))
 	exit()
