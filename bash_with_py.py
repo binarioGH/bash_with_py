@@ -3,7 +3,7 @@ import subprocess
 import os
 import getpass
 import time
-
+import itertools
 
 def clear():
 	subprocess.call(["cmd.exe","/c","cls"])
@@ -62,18 +62,29 @@ def rm(path):
 		print("[ERROR]: '{}' no encontrado".format(path))
 
 
-def headtail(textfile, trozo):
-	content = []
-	try:
-		file = open(textfile, "r")
-		for line in file:
-			content.append(line)
-	except:
-		print("[*] Error: No se ha podido abrir el archivo '{}'".format(textfile))
-	else:
-		for string in content[trozo]:
-			print(string)
+def head(textfile):
+    try:
+        with open(textfile) as data:
+            text_iterator = itertools.islice(data, 0, 10)
+            for element in text_iterator:
+                print(element, end = '')
+    except:
+        print("[ERROR] El archivo no existe o no puede ser abierto")
+    print("\n")
 
+def tail(textfile):
+    try:
+        with open(textfile) as data:
+            all_lines = itertools.islice(data, 0, None)
+            num_lines = sum(1 for _ in all_lines)
+            data.seek(0)
+            line_begin = 0 if (num_lines < 10) else num_lines - 10
+            text_iterator = itertools.islice(data, line_begin, None)
+            for element in text_iterator:
+                print(element, end = '')
+    except:
+        print("[ERROR] El archivo no existe o no puede ser abierto")
+    print("\n")
 
 def find(file):
 	findfile = os.listdir(".")
@@ -134,9 +145,9 @@ leer el codigo''')
 		elif cmd[:3] == "pwd":
 			pwd()
 		elif cmd[:4] == "head":
-			headtail(cmd[5:],slice(0,5))
+			head(cmd[5:])
 		elif cmd[:4] == "tail":
-			headtail(cmd[5:],slice(-5, None))
+			tail(cmd[5:])
 		elif cmd[:3] == "cat":
 			cat(cmd)
 		elif cmd[:4] == "find":
